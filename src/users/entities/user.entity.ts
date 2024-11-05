@@ -1,20 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, Timestamp } from 'typeorm';
 
-@Entity()
+@Entity("users")
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid", {})
+    id: string;
 
-    @Column()
+    @Column("varchar", { length: 30, default: "CLIENT" })
+    role: string;
+
+    @PrimaryColumn("varchar", { length: 50, unique: true, nullable: false })
     username: string;
 
-    @Column()
+    @Column("varchar", { length: 50 })
     displayname: string;
 
-    @Column()
+    @Column("varchar", { length: 255 })
     description: string;
 
-    @Column()
+    @Column("timestamp without time zone", { default: () => "CURRENT_TIMESTAMP" })
     created_at: Timestamp;
 
     @Column({ default: true })
