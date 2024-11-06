@@ -1,20 +1,32 @@
 import { User } from 'src/users/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, Timestamp, ManyToOne, JoinColumn } from 'typeorm';
 
+export enum OrderStatus {
+    'PENDING',
+    'DELAYED',
+    'PROCESSING',
+    'COMPLETED',
+    'CANCELLED'
+}
+
 @Entity("orders")
 export class Order {
     @PrimaryGeneratedColumn()
     id: number
 
-    @ManyToOne(type => User, { nullable: false })
+    @ManyToOne(type => User, { nullable: false, onDelete: null, onUpdate: "CASCADE" })
     @JoinColumn({ name: "user_id" })
     user: User
 
-    @Column()
-    order_status: null
+    @Column({
+        type: "enum",
+        enum: OrderStatus,
+        default: OrderStatus.PENDING
+    })
+    order_status: OrderStatus
 
-    @Column()
-    discount_codes: null
+    @Column("jsonb")
+    discount_codes: object
 
     @Column("timestamp", { default: () => "CURRENT_TIMESTAMP" })
     created_at: Timestamp
