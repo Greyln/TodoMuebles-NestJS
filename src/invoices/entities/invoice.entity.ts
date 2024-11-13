@@ -6,7 +6,7 @@ export enum PaymentStatus {
     'AUTHORIZED',
     'PAID',
     'FAILED',
-    'DECLINED'
+    'DECLINED',
     'REFUNDED'
 }
 
